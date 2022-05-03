@@ -153,6 +153,12 @@ cfg_if! {
 
         mod wasi;
         pub use wasi::*;
+    } else if #[cfg(all(target_os="zkvm", target_vendor="risc0"))] {
+        mod fixed_width_ints;
+        pub use fixed_width_ints::*;
+
+        mod zkvm;
+        pub use zkvm::*;
     } else {
         // non-supported targets: empty...
     }
