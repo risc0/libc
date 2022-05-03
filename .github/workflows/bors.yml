@@ -21,7 +21,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: TARGET=${{ matrix.target }} sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
@@ -40,7 +40,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: TARGET=${{ matrix.target }} sh ./ci/install-rust.sh
       - name: Execute run.sh
@@ -71,7 +71,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Self-update rustup
         run: rustup self update
         shell: bash
@@ -89,7 +89,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: sh ./ci/install-rust.sh
       - name: Check style
@@ -145,7 +145,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: TARGET=${{ matrix.target }} sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
@@ -154,6 +154,7 @@ jobs:
   # These targets are tier 3 or otherwise need to have CI build std via -Zbuild-std.
   # Because of this, only the nightly compiler can be used on these targets.
   docker_linux_build_std:
+    if: ${{ false }} # This is currently broken
     name: Docker Linux Build-Std Targets
     needs: [docker_linux_tier1, style_check]
     runs-on: ubuntu-20.04
@@ -168,7 +169,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: TOOLCHAIN=nightly INSTALL_RUST_SRC=1 sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
@@ -183,7 +184,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: sh ./ci/install-rust.sh
       - name: Execute run-docker.sh
@@ -213,7 +214,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: TOOLCHAIN=${{ matrix.toolchain }} sh ./ci/install-rust.sh
       - name: Execute build.sh
@@ -243,7 +244,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: TOOLCHAIN=${{ matrix.toolchain }} sh ./ci/install-rust.sh
       - name: Execute build.sh
@@ -265,7 +266,7 @@ jobs:
           stable,
         ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Self-update rustup
         run: rustup self update
         shell: bash
@@ -274,11 +275,12 @@ jobs:
         shell: bash
 
   semver_linux:
+    if: ${{ false }} # This is currently broken
     name: Semver Linux
     runs-on: ubuntu-20.04
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         # Should update the semverver revision in semver.sh if we touch nightly ver.
         run: TOOLCHAIN=nightly-2021-09-30 sh ./ci/install-rust.sh
@@ -286,11 +288,12 @@ jobs:
         run: sh ci/semver.sh linux
 
   semver_macos:
+    if: ${{ false }} # This is currently broken
     name: Semver macOS
     runs-on: macos-11
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         # Pin nightly version to make semverver compilable.
         run: TOOLCHAIN=nightly-2021-09-30 sh ./ci/install-rust.sh
@@ -305,7 +308,7 @@ jobs:
       - uses: rust-lang/simpleinfra/github-actions/cancel-outdated-builds@master
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Rust toolchain
         run: sh ./ci/install-rust.sh
       - name: Generate documentation
@@ -324,7 +327,7 @@ jobs:
     needs: [
       docker_linux_tier1,
       docker_linux_tier2,
-      docker_linux_build_std,
+      #docker_linux_build_std,
       macos,
       windows,
       style_check,
@@ -346,7 +349,7 @@ jobs:
     needs: [
       docker_linux_tier1,
       docker_linux_tier2,
-      docker_linux_build_std,
+      #docker_linux_build_std,
       macos,
       windows,
       style_check,

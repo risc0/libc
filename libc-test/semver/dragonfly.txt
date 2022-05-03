@@ -489,6 +489,7 @@ IPV6_PKTINFO
 IPV6_RECVPKTINFO
 IPV6_RECVTCLASS
 IPV6_TCLASS
+IPV6_DONTFRAG
 IP_HDRINCL
 IP_RECVDSTADDR
 IP_RECVIF
@@ -1496,6 +1497,8 @@ timex
 truncate
 ttyname_r
 ucontext_t
+umtx_sleep
+umtx_wakeup
 unmount
 updatelastlogx
 updwtmpx
