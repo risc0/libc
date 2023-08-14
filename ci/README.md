@@ -39,15 +39,12 @@ The remaining architectures look like:
   then otherwise runs tests normally.
 * iOS builds need an extra linker flag currently, but beyond that they're built
   as standard as everything else.
-* The rumprun target builds an entire kernel from the test suite and then runs
-  it inside QEMU using the serial console to test whether it succeeded or
-  failed.
 * The BSD builds, currently OpenBSD and FreeBSD, use QEMU to boot up a system
   and compile/run tests. More information on that below.
 
-[Actions config]: https://github.com/rust-lang/libc/tree/master/.github/workflows
-[Cirrus config]: https://github.com/rust-lang/libc/blob/master/.cirrus.yml
-[android-docker]: https://github.com/rust-lang/libc/blob/master/ci/docker/x86_64-linux-android/Dockerfile
+[Actions config]: https://github.com/rust-lang/libc/tree/HEAD/.github/workflows
+[Cirrus config]: https://github.com/rust-lang/libc/blob/HEAD/.cirrus.yml
+[android-docker]: https://github.com/rust-lang/libc/blob/HEAD/ci/docker/x86_64-linux-android/Dockerfile
 
 ## QEMU
 
@@ -61,10 +58,6 @@ We provide it the runtime path for the dynamically loaded system libraries,
 however. This strategy is used for all Linux architectures that aren't intel.
 Note that one downside of this QEMU system is that threads are barely
 implemented, so we're careful to not spawn many threads.
-
-For the rumprun target the only output is a kernel image, so we just use that
-plus the `rumpbake` command to create a full kernel image which is then run from
-within QEMU.
 
 Finally, the fun part, the BSDs. Quite a few hoops are jumped through to get CI
 working for these platforms, but the gist of it looks like:
